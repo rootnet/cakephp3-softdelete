@@ -104,6 +104,9 @@ $nonSoftDeletedRecords = $this->find('all');
 $allRecords            = $this->find('all', ['withDeleted']);
 ```
 
+If you want to retrieve only the soft deleted records, use the option `onlyDeleted` instead of 
+`withDeleted`.
+
 ### Hard deleting records
 
 To hard delete a single entity:
