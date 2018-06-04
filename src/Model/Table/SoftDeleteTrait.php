@@ -169,4 +169,23 @@ trait SoftDeleteTrait {
         $entity->$softDeleteField = null;
         return $this->save($entity);
     }
+
+    /**
+     * Restore multiple soft deleted records into an active state
+     *
+     * @param string|array|\Cake\Database\ExpressionInterface|callable|null $conditions The conditions to filter on
+     * @return int number of affected rows
+     */
+    public function restoreAll($conditions = [])
+    {
+        $query = $this->query()
+            ->update()
+            ->set([$this->getSoftDeleteField() => null])
+            ->where([$this->getSoftDeleteField() . ' IS NOT NULL'])
+            ->andWhere($conditions);
+        $statement = $query->execute();
+        $statement->closeCursor();
+
+        return $statement->rowCount();
+    }
 }

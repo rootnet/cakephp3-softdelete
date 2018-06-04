@@ -284,6 +284,21 @@ class SoftDeleteBehaviorTest extends TestCase
     }
 
     /**
+     * Test soft deleting and restoring a record.
+     * @return void
+     */
+    public function testRestoreAll()
+    {
+        $this->usersTable->deleteAll([]);
+
+        $affectedRows = $this->usersTable->restoreAll();
+        $this->assertEquals(2, $affectedRows);
+
+        $user = $this->usersTable->findById(1)->first();
+        $this->assertNotNull($user);
+    }
+
+    /**
      * When a configured field is missing from the table, an exception should be thrown
      *
      * @expectedException \SoftDelete\Error\MissingColumnException
