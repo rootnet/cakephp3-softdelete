@@ -103,6 +103,7 @@ trait SoftDeleteTrait {
 
     /**
      * Soft deletes all records matching `$conditions`.
+     * @param $conditions
      * @return int number of affected rows.
      */
     public function deleteAll($conditions)
@@ -110,7 +111,8 @@ trait SoftDeleteTrait {
         $query = $this->query()
             ->update()
             ->set([$this->getSoftDeleteField() => date('Y-m-d H:i:s')])
-            ->where($conditions);
+            ->where($conditions)
+            ->andWhere(['deleted IS' => null]);
         $statement = $query->execute();
         $statement->closeCursor();
         return $statement->rowCount();
