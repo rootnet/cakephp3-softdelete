@@ -132,13 +132,21 @@ class SoftDeleteBehaviorTest extends TestCase
      */
     public function testDeleteAll()
     {
-        $this->usersTable->deleteAll([]);
+        $rowsDeleted = $this->usersTable->deleteAll([]);
+        $this->assertEquals(2, $rowsDeleted);
         $this->assertEquals(0, $this->usersTable->find()->count());
         $this->assertNotEquals(0, $this->usersTable->find('all', ['withDeleted'])->count());
 
-        $this->postsTable->deleteAll([]);
+        $rowsDeleted = $this->usersTable->deleteAll([]);
+        $this->assertEquals(0, $rowsDeleted);
+
+        $rowsDeleted = $this->postsTable->deleteAll([]);
+        $this->assertEquals(2, $rowsDeleted);
         $this->assertEquals(0, $this->postsTable->find()->count());
         $this->assertNotEquals(0, $this->postsTable->find('all', ['withDeleted'])->count());
+
+        $rowsDeleted = $this->postsTable->deleteAll([]);
+        $this->assertEquals(0, $rowsDeleted);
     }
 
     /**
