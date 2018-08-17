@@ -132,13 +132,21 @@ class SoftDeleteBehaviorTest extends TestCase
      */
     public function testDeleteAll()
     {
-        $this->usersTable->deleteAll([]);
+        $rowsDeleted = $this->usersTable->deleteAll([]);
+        $this->assertEquals(2, $rowsDeleted);
         $this->assertEquals(0, $this->usersTable->find()->count());
         $this->assertNotEquals(0, $this->usersTable->find('all', ['withDeleted'])->count());
 
-        $this->postsTable->deleteAll([]);
+        $rowsDeleted = $this->usersTable->deleteAll([]);
+        $this->assertEquals(0, $rowsDeleted);
+
+        $rowsDeleted = $this->postsTable->deleteAll([]);
+        $this->assertEquals(2, $rowsDeleted);
         $this->assertEquals(0, $this->postsTable->find()->count());
         $this->assertNotEquals(0, $this->postsTable->find('all', ['withDeleted'])->count());
+
+        $rowsDeleted = $this->postsTable->deleteAll([]);
+        $this->assertEquals(0, $rowsDeleted);
     }
 
     /**
@@ -279,6 +287,21 @@ class SoftDeleteBehaviorTest extends TestCase
 
         $user = $this->usersTable->find('all', ['withDeleted'])->where(['id' => 1])->first();
         $this->usersTable->restore($user);
+        $user = $this->usersTable->findById(1)->first();
+        $this->assertNotNull($user);
+    }
+
+    /**
+     * Test soft deleting and restoring a record.
+     * @return void
+     */
+    public function testRestoreAll()
+    {
+        $this->usersTable->deleteAll([]);
+
+        $affectedRows = $this->usersTable->restoreAll();
+        $this->assertEquals(2, $affectedRows);
+
         $user = $this->usersTable->findById(1)->first();
         $this->assertNotNull($user);
     }
