@@ -26,7 +26,7 @@ trait SoftDeleteTrait {
             throw new MissingColumnException(
                 __('Configured field `{0}` is missing from the table `{1}`.',
                     $field,
-                    $this->alias()
+                    $this->getAlias()
                 )
             );
         }
@@ -127,7 +127,7 @@ trait SoftDeleteTrait {
         if(!$this->delete($entity)) {
             return false;
         }
-        $primaryKey = (array)$this->primaryKey();
+        $primaryKey = (array)$this->getPrimaryKey();
         $query = $this->query();
         $conditions = (array)$entity->extract($primaryKey);
         $statement = $query->delete()
