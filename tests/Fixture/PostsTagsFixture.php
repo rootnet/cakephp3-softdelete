@@ -44,6 +44,12 @@ class PostsTagsFixture extends TestFixture {
             'tag_id' => 2,
             'deleted' => '2015-05-18 15:04:00',
         ],
+        [
+            'id' => 3,
+            'post_id' => 2,
+            'tag_id' => 3,
+            'deleted' => '2018-11-30 15:04:00',
+        ],
     ];
 }
 

@@ -15,6 +15,7 @@ class PostsTable extends Table
     {
         $this->belongsTo('Users');
         $this->belongsToMany('Tags');
+        $this->hasMany('PostsTags');
         $this->addBehavior('CounterCache', ['Users' => ['posts_count']]);
     }
 }

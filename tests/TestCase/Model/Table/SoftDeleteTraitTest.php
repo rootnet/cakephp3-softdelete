@@ -310,4 +310,28 @@ class SoftDeleteBehaviorTest extends TestCase
         $post = $this->postsTable->get(1);
         $this->postsTable->delete($post);
     }
+
+    /**
+     * Test if the option containWithDeleted includes soft deleted items for every contain
+     *
+     * @return void
+     */
+    public function testContainWithDeleted(): void
+    {
+        $posts = $this->postsTable->find('all', ['containWithDeleted' => ['PostsTags', 'PostsTags.Tags']])->all();
+        $hasDeletedPostsTags = false;
+        $hasDeletedTags = false;
+        foreach ($posts as $post) {
+            foreach ($post->posts_tags as $postsTag) {
+                if ($postsTag->deleted !== null) {
+                    $hasDeletedPostsTags = true;
+                }
+                if ($postsTag->tag->deleted_date !== null) {
+                    $hasDeletedTags = true;
+                }
+            }
+        }
+        $this->assertTrue($hasDeletedPostsTags);
+        $this->assertTrue($hasDeletedTags);
+    }
 }
