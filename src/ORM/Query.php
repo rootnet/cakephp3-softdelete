@@ -32,6 +32,18 @@ class Query extends CakeQuery
                 $aliasedField = $repository->aliasField($repository->getSoftDeleteField());
                 $this->andWhere($aliasedField . ' IS NULL');
             }
+
+            if (
+                is_array($options) && isset($options['containWithDeleted']) && is_array($options['containWithDeleted'])
+            ) {
+                $contains = [];
+                foreach ($options['containWithDeleted'] as $alias) {
+                    $contains[$alias] = function (Query $aliasQuery) {
+                        return $aliasQuery->applyOptions(['withDeleted']);
+                    };
+                }
+                $this->contain($contains);
+            }
         }
     }
 }
