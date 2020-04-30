@@ -23,12 +23,12 @@ Update your composer file to include this plugin. Add the following lines to you
     "require": {
         "rootnet/cakephp3-softdelete": "dev-master"
     },
-    "repositories":
+    "repositories": [
         {
             "type": "vcs",
             "url":  "git@github.com:rootnet/cakephp3-softdelete.git"
         }
-    }
+    ]
 }
 
 ```
