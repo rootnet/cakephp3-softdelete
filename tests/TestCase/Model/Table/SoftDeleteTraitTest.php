@@ -1,6 +1,7 @@
 <?php
 namespace SoftDelete\Test\TestCase\Model\Table;
 
+use SoftDelete\Error\MissingColumnException;
 use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
 
@@ -20,10 +21,10 @@ class SoftDeleteBehaviorTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.SoftDelete.users',
-        'plugin.SoftDelete.posts',
-        'plugin.SoftDelete.tags',
-        'plugin.SoftDelete.posts_tags'
+        'plugin.SoftDelete.Users',
+        'plugin.SoftDelete.Posts',
+        'plugin.SoftDelete.Tags',
+        'plugin.SoftDelete.PostsTags'
     ];
 
     /**
@@ -31,7 +32,7 @@ class SoftDeleteBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -48,7 +49,7 @@ class SoftDeleteBehaviorTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->usersTable);
         unset($this->postsTable);
@@ -302,10 +303,11 @@ class SoftDeleteBehaviorTest extends TestCase
     /**
      * When a configured field is missing from the table, an exception should be thrown
      *
-     * @expectedException \SoftDelete\Error\MissingColumnException
+     * @return void
      */
-    public function testMissingColumn()
+    public function testMissingColumn(): void
     {
+        $this->expectException(MissingColumnException::class);
         $this->postsTable->softDeleteField = 'foo';
         $post = $this->postsTable->get(1);
         $this->postsTable->delete($post);
