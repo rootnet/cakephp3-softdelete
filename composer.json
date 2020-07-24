@@ -9,7 +9,7 @@
         "source": "https://github.com/rootnet/cakephp3-soft-delete"
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.4",
         "cakephp/plugin-installer": "*",
         "cakephp/cakephp": "^4.0"
     },

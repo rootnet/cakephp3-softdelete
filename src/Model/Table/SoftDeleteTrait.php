@@ -170,7 +170,8 @@ trait SoftDeleteTrait {
     {
         $softDeleteField = $this->getSoftDeleteField();
         $entity->$softDeleteField = null;
-        return $this->save($entity);
+
+        return $this->save($entity) !== false;
     }
 
     /**
