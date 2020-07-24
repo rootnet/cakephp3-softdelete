@@ -17,7 +17,7 @@ class Query extends CakeQuery
      * 
      * @return void
      */
-    public function triggerBeforeFind()
+    public function triggerBeforeFind(): void
     {
         if (!$this->_beforeFindFired && $this->_type === 'select') {
             parent::triggerBeforeFind();
@@ -31,6 +31,18 @@ class Query extends CakeQuery
             } elseif (!is_array($options) || !in_array('withDeleted', $options, true)) {
                 $aliasedField = $repository->aliasField($repository->getSoftDeleteField());
                 $this->andWhere($aliasedField . ' IS NULL');
+            }
+
+            if (
+                is_array($options) && isset($options['containWithDeleted']) && is_array($options['containWithDeleted'])
+            ) {
+                $contains = [];
+                foreach ($options['containWithDeleted'] as $alias) {
+                    $contains[$alias] = function (Query $aliasQuery) {
+                        return $aliasQuery->applyOptions(['withDeleted']);
+                    };
+                }
+                $this->contain($contains);
             }
         }
     }
