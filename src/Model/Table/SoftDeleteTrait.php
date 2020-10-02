@@ -37,6 +37,10 @@ trait SoftDeleteTrait {
 
     public function query(): CakeQuery
     {
+        if ($this instanceOf WrapSoftDeleteQueryInterface) {
+            return $this->wrapSoftDeleteQuery();
+        }
+
         return new Query($this->getConnection(), $this);
     }
 
