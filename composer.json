@@ -26,5 +26,10 @@
             "SoftDelete\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "cakephp/plugin-installer": true
+        }
     }
 }
