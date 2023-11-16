@@ -82,6 +82,14 @@ class UsersTable extends Table
 $this->delete($user); // $user entity is now soft deleted if UsersTable uses SoftDeleteTrait.
 ```
 
+You can have additional fields beside the softdelete field updated by providing them as `[$field => $value]` in the
+options for the delete call.
+
+```php
+$this->delete($user, ['setAdditionalFields' => ['is_active' => false]]);
+```
+This will set `deleted` to the current timestamp, and `is_active` to false.
+
 ### Restoring Soft deleted records
 
 To restore a soft deleted entity into an active state, use the `restore` method:
