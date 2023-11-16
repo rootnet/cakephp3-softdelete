@@ -22,21 +22,13 @@ class TagsTable extends Table
             'targetForeignKey' => 'post_id'
         ]);
         $this->hasMany('PostsTags');
+        $this->setPrimaryKey('id');
     }
 }
 
 
-class TagsFixture extends TestFixture {
-
-    public $fields = [
-        'id'          => ['type' => 'integer'],
-        'name'     => ['type' => 'string'],
-        'deleted_date'     => ['type' => 'datetime', 'default' => null, 'null' => true],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id']]
-        ]
-    ];
-
+class TagsFixture extends TestFixture
+{
     public $records = [
         [
             'id' => 1,

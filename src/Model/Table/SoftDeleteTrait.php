@@ -86,8 +86,16 @@ trait SoftDeleteTrait {
         $conditions = (array)$entity->extract($primaryKey);
         $statement = $query->update()
             ->set([$this->getSoftDeleteField() => date('Y-m-d H:i:s')])
-            ->where($conditions)
-            ->execute();
+            ->where($conditions);
+        if (isset($options['setAdditionalFields'])) {
+            foreach ($options['setAdditionalFields'] as $field => $value) {
+                if ($field === $this->getSoftDeleteField()) {
+                    continue;
+                }
+                $statement->set([$field => $value]);
+            }
+        }
+        $statement = $statement->execute();
 
         $success = $statement->rowCount() > 0;
         if (!$success) {

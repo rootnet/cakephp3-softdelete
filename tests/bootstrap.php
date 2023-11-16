@@ -4,6 +4,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Log\Log;
+use Cake\TestSuite\Fixture\SchemaLoader;
 
 require_once 'vendor/autoload.php';
 
@@ -95,3 +96,6 @@ Log::setConfig([
         'file' => 'error',
     ]
 ]);
+
+$schemaLoader = new SchemaLoader();
+$schemaLoader->loadInternalFile(ROOT . 'tests/Fixture/Schema.php');
