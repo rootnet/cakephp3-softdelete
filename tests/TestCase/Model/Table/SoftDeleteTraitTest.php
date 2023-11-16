@@ -20,12 +20,15 @@ class SoftDeleteBehaviorTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
-        'plugin.SoftDelete.Users',
-        'plugin.SoftDelete.Posts',
-        'plugin.SoftDelete.Tags',
-        'plugin.SoftDelete.PostsTags'
-    ];
+    public function getFixtures(): array
+    {
+        return [
+            'plugin.SoftDelete.Users',
+            'plugin.SoftDelete.Posts',
+            'plugin.SoftDelete.Tags',
+            'plugin.SoftDelete.PostsTags'
+        ];
+    }
 
     /**
      * setUp method
@@ -335,5 +338,16 @@ class SoftDeleteBehaviorTest extends TestCase
         }
         $this->assertTrue($hasDeletedPostsTags);
         $this->assertTrue($hasDeletedTags);
+    }
+
+    public function testDeleteWithAdditionalFields(): void
+    {
+        $tag = $this->tagsTable->get(1);
+        $this->tagsTable->delete($tag, ['setAdditionalFields' => ['name' => 'parrot']]);
+        $this->assertNull($this->tagsTable->findById(1)->first());
+
+        $tag = $this->tagsTable->find('all', ['withDeleted'])->where(['id' => 1])->first();
+        $this->assertNotNull($tag);
+        $this->assertSame('parrot', $tag->name);
     }
 }

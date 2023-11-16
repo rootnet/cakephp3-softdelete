@@ -17,19 +17,12 @@ class UsersTable extends Table
             'dependent'        => true,
             'cascadeCallbacks' => true,
         ]);
+        $this->setPrimaryKey('id');
     }
 }
 
-class UsersFixture extends TestFixture {
-
-    public $fields = [
-        'id'          => ['type' => 'integer'],
-        'posts_count'  => ['type' => 'integer', 'default' => '0', 'null' => false],
-        'deleted'     => ['type' => 'datetime', 'default' => null, 'null' => true],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id']]
-        ]
-    ];
+class UsersFixture extends TestFixture
+{
     public $records = [
         [
             'id'          => 1,

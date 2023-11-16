@@ -13,6 +13,7 @@ class PostsTable extends Table
 
     public function initialize(array $config): void
     {
+        $this->setPrimaryKey('id');
         $this->belongsTo('Users');
         $this->belongsToMany('Tags');
         $this->hasMany('PostsTags');
@@ -21,16 +22,8 @@ class PostsTable extends Table
 }
 
 
-class PostsFixture extends TestFixture {
-
-    public $fields = [
-        'id'          => ['type' => 'integer'],
-        'user_id'     => ['type' => 'integer', 'default' => '0', 'null' => false],
-        'deleted'     => ['type' => 'datetime', 'default' => null, 'null' => true],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id']]
-        ]
-    ];
+class PostsFixture extends TestFixture
+{
     public $records = [
         [
             'id'          => 1,
